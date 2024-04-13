@@ -4,10 +4,20 @@ GET http://127.0.0.1:3000/api/v1/cats
 ### Get single cat
 GET http://127.0.0.1:3000/api/v1/cats/41
 
+### Cat form submission needs token
+# @name login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin123",
+  "password": "123"
+}
 
 ### Upload vito cat image to backend
 POST http://localhost:3000/api/v1/cats
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{login.response.body.token}}
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="cat_name"
@@ -18,15 +28,34 @@ Content-Disposition: form-data; name="owner"
 
 37
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="nunna.png"
+Content-Disposition: form-data; name="file"; filename="vito.png"
 Content-Type: image/png
 
-< nunna.jpg
+< ./images/vito.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Upload cat image to backend without name
+POST http://localhost:3000/api/v1/cats
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{login.response.body.token}}
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="owner"
+
+37
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="vito.png"
+Content-Type: image/png
+
+< ./images/vito.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 
 ### Upload veikko cat image to backend
 POST http://localhost:3000/api/v1/cats
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{login.response.body.token}}
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="title"
@@ -48,6 +77,7 @@ Content-Type: image/png
 # should save file as .jpg
 POST http://localhost:3000/api/v1/cats
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer {{login.response.body.token}}
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="title"

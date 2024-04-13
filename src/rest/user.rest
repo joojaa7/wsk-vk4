@@ -1,0 +1,57 @@
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "password": "123",
+  "email": "valid.email@metropolia.fi",
+  "username":  "admin123",
+  "name": "pekka",
+  "role": "admin"
+}
+
+### Incorrect email
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "password": "123",
+  "email": "invalid",
+  "username":  "admin123",
+  "name": "pekka",
+  "role": "admin"
+}
+
+
+
+### Incorrect username
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "password": "123",
+  "email": "metro@polia.fi",
+  "username": "ji",
+  "name": "pekka",
+  "role": "admin"
+}
+
+### Incorrect username & email
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "password": "123",
+  "email": "metro",
+  "username": "ji",
+  "name": "pekka",
+  "role": "admin"
+}
+
+### Post missing fields
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "pekka",
+  "role": "admin"
+}
