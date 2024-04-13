@@ -13,15 +13,19 @@ const getCatById = (req, res) => {
   }
 };
 
-const postCat = (req, res) => {
+const postCat = async (req, res) => {
   // console.log('postCat', req.body);
-  const result = addCat(req.body);
+  console.log("req", req)
+
+  const result = await addCat(req.body);
+
   if (result.cat_id) {
     res.status(201);
     res.json({message: 'New cat added.', result});
   } else {
     res.sendStatus(400);
   }
+
 };
 
 const putCat = (req, res) => {

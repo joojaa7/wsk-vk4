@@ -26,7 +26,7 @@ const findCatById = (id) => {
   return catItems.find((item) => item.cat_id === Number(id));
 };
 
-const addCat = (cat) => {
+const addCat = async (cat) => {
   const {cat_name, weight, owner, filename, birthdate} = cat;
   const newId = catItems[0].cat_id + 1;
   catItems.unshift({
