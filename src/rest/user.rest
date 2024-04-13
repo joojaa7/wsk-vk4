@@ -55,3 +55,12 @@ Content-Type: application/json
   "name": "pekka",
   "role": "admin"
 }
+
+### Post Login
+POST http://localhost:3000/api/v1/auth/login
+content-type: application/json
+
+{
+  "username": "JohnDoe",
+  "password": "to-be-hashed-pw1"
+}

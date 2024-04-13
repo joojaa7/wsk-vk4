@@ -1,6 +1,7 @@
 import express from 'express';
+import { body } from 'express-validator';
 import multer from 'multer';
-import { createThumbnail } from '../../middlewares.js';
+import { authenticateToken, createThumbnail, validationErrors } from '../../middlewares.js';
 import {
   deleteCat,
   getCat,
@@ -18,6 +19,7 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const suffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
+    // TODO fix spaces in filenames, we do not want to save files with spaces
     const originalFilename = file.originalname.split('.')[0].toLowerCase();
     const prefix = `${originalFilename}-${file.fieldname}`;
 
@@ -27,6 +29,7 @@ const storage = multer.diskStorage({
       extension = 'png';
     }
 
+    // console.log("file in storage", file)
 
     const filename = `${prefix}-${suffix}.${extension}`;
 
@@ -35,6 +38,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
+  // diskStorage destination property overwrites dest prop
   dest: 'uploads/',
   storage,
   fileFilter: (req, file, cb) => {
@@ -52,7 +56,10 @@ catRouter
   .route('/')
   .get(getCat)
   .post(
+    authenticateToken,
     upload.single('file'),
+    body("cat_name").trim().isLength({ min: 3, max: 30 }),
+    validationErrors,
     createThumbnail,
     postCat
   );
@@ -60,7 +67,7 @@ catRouter
 catRouter
   .route('/:id')
   .get(getCatById)
-  .put(putCat)
-  .delete(deleteCat);
+  .put(authenticateToken, putCat)
+  .delete(authenticateToken, deleteCat);
 
 export default catRouter;
