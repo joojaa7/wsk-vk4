@@ -1,6 +1,5 @@
 import express from 'express';
 import multer from 'multer';
-import { createThumbnail } from '../../middlewares.js';
 import {
   deleteCat,
   getCat,
@@ -53,7 +52,6 @@ catRouter
   .get(getCat)
   .post(
     upload.single('file'),
-    createThumbnail,
     postCat
   );
 
